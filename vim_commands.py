@@ -89,3 +89,13 @@ def zero(vimBuffer):
     col = 0
     buf.position = (line,col)
     return buf
+
+def right_bracket(vimBuffer):
+    buf = copy.deepcopy(vimBuffer)
+    line, col = buf.position
+    while(line < len(buf.text) and buf.text[line] != ['\n']):
+        line = line + 1
+    col = 0
+    buf.position = (line, col)
+    return buf
+
