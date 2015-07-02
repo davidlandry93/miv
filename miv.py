@@ -72,14 +72,14 @@ def approx_distance(text, position1, position2):
 def explore_node(node):
     for command in allCommands:
         name, f = command
-        print("Trying command: " + name)
         newNode = CommandTreeNode(f(node.vimBuffer), node, name, node.target)
         node.add_child(newNode)
     print(node.children)
 
 def reverse_engineer_rec(node, solutionsSoFar):
-    if(node.vimBuffer.position == node.target):
-        return node.rebuildSolution
+    if(node.vimBuffer.position == node.target[1]):
+        print("Adding solution")
+        solutionsSoFar.append(node.rebuild_solution())
     else:
         explore_node(node)
         for child_node in node.children:
@@ -91,12 +91,14 @@ def reverse_engineer_rec(node, solutionsSoFar):
                     approx_distance(
                         node.vimBuffer.text, 
                         node.vimBuffer.position, 
-                        node.target[1]
-                        )
+                        node.target[1])
                 ):
-                solutionsSoFar.append(
+                if(len(solutionsSoFar) == 0):
+                    reverse_engineer_rec(child_node, solutionsSoFar)
+                else:
+                    if(len(node.rebuild_solution()) < min(map(len,
+                            solutionsSoFar))):
                         reverse_engineer_rec(child_node, solutionsSoFar)
-                        )
 
 def reverse_engineer(textBuffer, target): 
     solutions = []
