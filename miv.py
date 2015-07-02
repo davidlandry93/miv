@@ -74,7 +74,6 @@ def explore_node(node):
         name, f = command
         newNode = CommandTreeNode(f(node.vimBuffer), node, name, node.target)
         node.add_child(newNode)
-    print(node.children)
 
 def reverse_engineer_rec(node, solutionsSoFar):
     if(node.vimBuffer.position == node.target[1]):
